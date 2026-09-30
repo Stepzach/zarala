@@ -129,7 +129,7 @@ h2 { font-size: clamp(2.8rem, 7vw, 5.8rem); line-height: .94; letter-spacing: -.
 .booking-meta dt { color: rgba(244,239,228,.55); font-size: .78rem; }
 .booking-meta dd { font-size: .92rem; }
 
-.site-footer { background: #101713; color: var(--cream); padding: 3.5rem 0 1.5rem; }
+.site-footer { background: #344d40; color: var(--cream); padding: 3.5rem 0 1.5rem; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr .7fr .7fr; gap: 2rem; }
 .footer-brand { font-size: 2.4rem; }
 .footer-grid > div > p { margin-top: .7rem; color: rgba(244,239,228,.55); }
@@ -319,7 +319,7 @@ a[aria-disabled="true"] { cursor:default; }
   .hero-actions .text-link { font-size: .95rem; padding-block: .45rem; }
   .hero-social { display: none; }
   .hero-shade { background: linear-gradient(0deg, rgba(11,17,13,.85), rgba(11,17,13,.36) 38%, rgba(11,17,13,.06) 70%); }
-  .ticker-window { margin-right: 44px; }
+
   .ticker-track { width: max-content; justify-content: flex-start; min-height: 4rem; animation: ticker-scroll 24s linear infinite; }
   .ticker-group { flex: 0 0 auto; flex-wrap: nowrap; justify-content: flex-start; gap: 1.2rem; padding: .8rem 1.2rem .8rem 0; }
   .ticker-copy { display: flex; }
