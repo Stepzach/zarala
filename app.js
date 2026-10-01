@@ -126,7 +126,6 @@ function initTicker() {
   const button = document.querySelector("[data-ticker-toggle]");
   const ticker = document.querySelector(".ticker");
   if (!button || !ticker) return;
-  ticker.classList.add("has-controls");
   button.addEventListener("click", () => {
     const paused = button.getAttribute("aria-pressed") !== "true";
     button.setAttribute("aria-pressed", String(paused));
