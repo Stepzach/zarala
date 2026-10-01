@@ -37,3 +37,9 @@ Booking enquiries use hello@zaralakemusic.com. To use a form later, set BOOKING_
 All four live CSVs were retrieved and checked against the website parser. Row additions, unchanged refreshes, visibility, ordering, date formats, CSV escaping, unsafe links, fallback behaviour and gallery lightbox data were tested. HTML links, three-line hamburger markup and all three Font Awesome brand classes were checked.
 
 A browser executable is unavailable in this environment, so final visual and interactive browser checks remain: review desktop/mobile layouts, open/close the menu and gallery, and verify external icons/photos after uploading. The live site itself has not been changed by this file delivery.
+
+## Motion and interaction
+
+The hero words enter gently and section titles rise 14px once when entering the viewport. The enhancement uses native IntersectionObserver and Web Animations APIs, with no animation library or scroll handler. Text stays visible if JavaScript or these APIs are unavailable. Changing the system reduced-motion preference cancels active title animations and disables decorative hover movement, smooth scrolling and the ticker.
+
+Mouse/trackpad users get subtle button lift, link-arrow movement, photo zoom and social-card lift; these effects are limited to hover-capable, precise pointers. Keyboard users retain visible focus outlines and get static control feedback. Titles, text and essential actions are never gated behind an animation. The mobile ticker keeps its existing button-free design and remains static when reduced motion is requested.
