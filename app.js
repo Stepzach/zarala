@@ -15,12 +15,55 @@ document.addEventListener("DOMContentLoaded", () => {
   initTicker();
   initExternalLinks();
   initLightbox();
+  initMotion();
   refreshContent();
   setInterval(() => { if (!document.hidden) refreshContent(); }, REFRESH_INTERVAL_MS);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) refreshContent(); });
   window.addEventListener("online", refreshContent);
   document.querySelectorAll("[data-year]").forEach(el => el.textContent = new Date().getFullYear());
 });
+
+// Progressive enhancement: content is always visible, even without JS or motion APIs.
+function initMotion() {
+  const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+  if (!("IntersectionObserver" in window) || typeof Element.prototype.animate !== "function") return;
+
+  const played = new WeakSet();
+  const running = new Set();
+  const reveal = (element, delay = 0) => {
+    if (preference.matches || played.has(element)) return;
+    played.add(element);
+    const animation = element.animate([
+      { opacity: .65, translate: "0 14px" },
+      { opacity: 1, translate: "0 0" }
+    ], { duration: 520, delay, easing: "cubic-bezier(.22, 1, .36, 1)" });
+    running.add(animation);
+    animation.finished.catch(() => {}).finally(() => running.delete(animation));
+  };
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(({ target, isIntersecting }) => {
+      if (!isIntersecting) return;
+      reveal(target);
+      observer.unobserve(target);
+    });
+  }, { threshold: .15 });
+
+  const syncPreference = () => {
+    observer.disconnect();
+    if (preference.matches) {
+      running.forEach(animation => animation.cancel());
+      running.clear();
+      return;
+    }
+    document.querySelectorAll(".section h2:not(.sr-only)").forEach(heading => {
+      if (!played.has(heading)) observer.observe(heading);
+    });
+  };
+  preference.addEventListener("change", syncPreference);
+  syncPreference();
+  // Animate the words, preserving the wordmark's existing rotations and readable text.
+  document.querySelectorAll(".wordmark > span").forEach((word, index) => reveal(word, index * 70));
+}
 
 async function refreshContent() {
   if (refreshInProgress) return;
@@ -83,6 +126,7 @@ function initTicker() {
   const button = document.querySelector("[data-ticker-toggle]");
   const ticker = document.querySelector(".ticker");
   if (!button || !ticker) return;
+  ticker.classList.add("has-controls");
   button.addEventListener("click", () => {
     const paused = button.getAttribute("aria-pressed") !== "true";
     button.setAttribute("aria-pressed", String(paused));
